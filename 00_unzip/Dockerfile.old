@@ -1,0 +1,8 @@
+FROM alpine:3.6
+
+RUN apk update
+RUN apk add bash
+RUN apk add unzip
+
+ADD main.sh /code/main.sh
+ENTRYPOINT ["/code/main.sh"]
