@@ -1,6 +1,6 @@
 #!/bin/bash
 
-basedir=/home/volker/TmpEW/transform
+basedir=/bigdata/volker/TmpEW/transform
 indir=${basedir}/in
 outdir=${basedir}/out
 workdir=${basedir}/work
