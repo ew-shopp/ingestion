@@ -10,8 +10,8 @@ DOCKER_SERVICE="docker service create \
     --user `id --user`:`id --group` \
     --detach true \
     --limit-cpu 1 \
-    --mount type=volume,source=${indir},destination=/in \
-    --mount type=volume,source=${workdir},destination=/work \
-    --mount type=volume,source=${outdir},destination=/out"
+    --mount type=bind,source=${indir},destination=/in \
+    --mount type=bind,source=${workdir},destination=/work \
+    --mount type=bind,source=${outdir},destination=/out"
 
 ${DOCKER_SERVICE} transform /in /work /out
