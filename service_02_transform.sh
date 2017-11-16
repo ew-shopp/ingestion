@@ -6,6 +6,7 @@ outdir=${basedir}/out
 workdir=${basedir}/work
 
 DOCKER_SERVICE="docker service create \
+    --name ewshopp-ingestion-02-transform \
     --replicas 1 \
     --user `id --user`:`id --group` \
     --detach \
