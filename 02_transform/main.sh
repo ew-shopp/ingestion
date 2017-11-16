@@ -70,8 +70,7 @@ while true; do
 
     else
         # Wait
-        # echo '// Sleeping 60 Seconds'
-        # sleep 60
-        break
+        echo '// Sleeping 60 Seconds'
+        sleep 60
     fi
 done
