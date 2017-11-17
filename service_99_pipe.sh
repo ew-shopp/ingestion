@@ -22,11 +22,15 @@ indir_03=${outdir_02}
 outdir_03=${outdir_global}
 workdir_03="${basedir}/_work03"
 
+unzip_image_name="registry.sintef.cloud/unzip-jot-data"
+tsv_to_csv_image_name="registry.sintef.cloud/tsv-to-csv"
+data_cleaning_image_name="registry.sintef.cloud/clean-using-grafterizer"
+transform_to_arango_image_name="registry.sintef.cloud/transform-to-arango"
+
 #
 # run_00_unzip
 #
 
-echo "// Launching 00-Unzip"
 DOCKER_SERVICE="docker service create \
     --name ewshopp-ingestion-00-unzip \
     --replicas 1 \
@@ -37,13 +41,12 @@ DOCKER_SERVICE="docker service create \
     --mount type=bind,source=${workdir_00},destination=/work \
     --mount type=bind,source=${outdir_00},destination=/out"
 
-${DOCKER_SERVICE} unzip /in /work /out
+${DOCKER_SERVICE} ${unzip_image_name} /in /work /out
 
 #
 # run_01_tsv2csv
 #
 
-echo "// Launching 01-Tsv2Csv"
 DOCKER_SERVICE="docker service create \
     --name ewshopp-ingestion-01-tsv2csv \
     --replicas 1 \
@@ -54,13 +57,12 @@ DOCKER_SERVICE="docker service create \
     --mount type=bind,source=${workdir_01},destination=/work \
     --mount type=bind,source=${outdir_01},destination=/out"
 
-${DOCKER_SERVICE} tsv2csv /in /work /out
+${DOCKER_SERVICE} ${tsv_to_csv_image_name} /in /work /out
 
 #
 # run_02_transform
 #
 
-echo "// Launching 02-Transform"
 DOCKER_SERVICE="docker service create \
     --name ewshopp-ingestion-02-transform \
     --replicas 1 \
@@ -71,13 +73,12 @@ DOCKER_SERVICE="docker service create \
     --mount type=bind,source=${workdir_02},destination=/work \
     --mount type=bind,source=${outdir_02},destination=/out"
 
-${DOCKER_SERVICE} transform /in /work /out
+${DOCKER_SERVICE} ${data_cleaning_image_name} /in /work /out
 
 #
 # run_03_toarango
 #
 
-echo "// Launching 03-ToArango"
 DOCKER_SERVICE="docker service create \
     --name ewshopp-ingestion-03-toarango \
     --replicas 1 \
@@ -88,4 +89,4 @@ DOCKER_SERVICE="docker service create \
     --mount type=bind,source=${workdir_03},destination=/work \
     --mount type=bind,source=${outdir_03},destination=/out"
 
-${DOCKER_SERVICE} toarango /in /work /out
+${DOCKER_SERVICE} ${transform_to_arango_image_name} /in /work /out
